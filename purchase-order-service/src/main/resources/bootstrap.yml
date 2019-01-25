@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: purchase_order_service
+  profiles:
+    active:
+      default
+  cloud:
+    config:
+      enabled: true

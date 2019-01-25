@@ -1,0 +1,12 @@
+-- DROP TABLE IF EXISTS products;
+--
+-- CREATE TABLE customers (
+--   customer_id VARCHAR(100) PRIMARY KEY NOT NULL,
+--   personal_Id_number INT NOT NULL,
+--   full_name TEXT NOT NULL,
+--   address TEXT,
+--   phone_number INT
+-- );
+
+-- INSERT INTO customers (customer_id, personal_Id_number, full_name, address, phone_number)
+-- VALUES('e254f8c-c442-4ebe-a82a-e2fc1d1ff78a', 7913911, 'Marco Antonio Cadima De La Via', 'Moxos Street #888', 76490946);

@@ -1,0 +1,48 @@
+server:
+  port: 8081
+
+#spring:
+#  cloud:
+#    stream:
+#      bindings:
+#        input:
+#          destination: customerChangeTopic
+#          content-type: application/json
+#        binder:
+#          zkNodes: localhost
+#          brokers: localhost
+#        rabbit:
+#            localhost
+
+#spring:
+#  cloud.stream:
+#    bindings:
+#      input:
+#        destination: customerChangeTopic
+#        content-type: application/json
+#        binder: kafka1
+#    binders:
+#      kafka1:
+#        type: kafka
+#        environment:
+#          spring:
+#            cloud:
+#              stream:
+#                kafka:
+#                  binder.brokers: ipaddr:9092,ipaddr9092,ipaddr:9092
+#                  streams :
+#                    binder :
+#                      configuration :
+#                        default.key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+#                        default.value.serde: org.springframework.kafka.support.serializer.JsonSerde
+#
+#    kafka.binder:
+#      configuration:
+#        security.protocol: SASL_PLAINTEXT
+#        sasl.mechanism: SCRAM-SHA-256
+#  kafka:
+#    properties:
+#      sasl:
+#        jaas:
+#          config : org.apache.kafka.common.security.scram.ScramLoginModule required username="usr" password="pws";
+

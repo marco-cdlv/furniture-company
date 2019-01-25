@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: draw_service
+  profiles:
+    active:
+      default
+  cloud:
+    config:
+      enabled: true

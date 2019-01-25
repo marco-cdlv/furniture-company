@@ -1,0 +1,37 @@
+#server:
+#   port: 8888
+
+
+#spring:
+#  cloud:
+#    config:
+#      discovery:
+#        enabled: true
+#      server:
+#        encrypt.enabled: false
+#        git:
+#          uri: https://github.com/carnellj/config-repo/
+#          searchPaths: licensingservice,organizationservice,specialroutesservice,zuulservice
+#          username: native-cloud-apps
+#          password: 0ffended
+
+#spring:
+#  profiles:
+#    active: native
+#  cloud:
+#     config:
+#       server:
+#           native:
+#              searchLocations: D://Furniture company/config-service/src/main/resources/config/product_service,
+              #searchLocations: classpath:config/,classpath:config/product_service
+
+   server:
+     port: 8888
+   spring:
+     profiles:
+       active: native
+     cloud:
+       config:
+         server:
+           native:
+             searchLocations: classpath:config/{application}
