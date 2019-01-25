@@ -15,14 +15,8 @@ public class PurchaseOrder {
     @Column(name = "customer_id", nullable = false)
     private Long customerId;
 
-    @Column(name = "furniture_id", nullable = false)
-    private Long furnitureId;
-
     @Column(name = "purchase_date", nullable = false)
     private Date purchaseDate;
-
-    @Column(name = "amount", nullable = false)
-    private int amount;
 
     public Long getPurchaseOrderId() {
         return purchaseOrderId;
@@ -40,14 +34,6 @@ public class PurchaseOrder {
         this.purchaseDate = purchaseDate;
     }
 
-    public int getAmount() {
-        return amount;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
-
     public Long getCustomerId() {
         return customerId;
     }
@@ -56,11 +42,4 @@ public class PurchaseOrder {
         this.customerId = customerId;
     }
 
-    public Long getFurnitureId() {
-        return furnitureId;
-    }
-
-    public void setFurnitureId(Long furnitureId) {
-        this.furnitureId = furnitureId;
-    }
 }
