@@ -19,9 +19,19 @@ public class WinnerController {
         return winnerService.getAllWinners();
     }
 
-    @RequestMapping(value = "/{customer_id}", method = RequestMethod.GET)
-    public Winner getWinnerByCustomerId(@PathVariable("customer_id") Long customerId) {
-        return winnerService.getWinnerByCustomerID(customerId);
+    @RequestMapping(value = "/participant/{participant_id}", method = RequestMethod.GET)
+    public Winner getWinnerByParticipantId(@PathVariable("participant_id") Long participantId) {
+        return winnerService.getWinnerByParticipantID(participantId);
+    }
+
+    @RequestMapping(value = "/prize/{prize_id}", method = RequestMethod.GET)
+    public Winner getWinnerByPrizeId(@PathVariable("prize_id") Long prizeId) {
+        return winnerService.getWinnerByPrizeID(prizeId);
+    }
+
+    @RequestMapping(value = "/draw/{draw_id}", method = RequestMethod.GET)
+    public List<Winner> getWinnersByDrawId(@PathVariable("draw_id") Long drawId) {
+        return winnerService.getWinnersByDrawId(drawId);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
@@ -33,4 +43,5 @@ public class WinnerController {
     public void deleteAllWinners() {
         winnerService.resetWinner();
     }
+
 }

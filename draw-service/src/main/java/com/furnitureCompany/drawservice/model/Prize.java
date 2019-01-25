@@ -12,17 +12,14 @@ public class Prize {
     @PrimaryKeyJoinColumn
     private Long prizeId;
 
+    @Column(name = "draw_id", nullable = false)
+    private Long drawId;
+
     @Column(name = "name")
     private String name;
 
     @Column(name = "description")
     private String description;
-
-    @Column(name = "start_date")
-    private String startDate;
-
-    @Column(name = "end_date")
-    private String endDate;
 
     @Column(name = "active")
     private boolean active;
@@ -51,27 +48,19 @@ public class Prize {
         this.description = description;
     }
 
-    public String getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(String startDate) {
-        this.startDate = startDate;
-    }
-
-    public String getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(String endDate) {
-        this.endDate = endDate;
-    }
-
     public boolean isActive() {
         return active;
     }
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public Long getDrawId() {
+        return drawId;
+    }
+
+    public void setDrawId(Long drawId) {
+        this.drawId = drawId;
     }
 }

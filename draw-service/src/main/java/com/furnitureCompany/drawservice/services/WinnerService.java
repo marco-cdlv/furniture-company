@@ -25,12 +25,15 @@ public class WinnerService {
         winnerRepository.deleteAll();
     }
 
-    public Winner getWinnerByCustomerID(Long customerId) {
-        return winnerRepository.getWinnerByCustomerId(customerId);
+    public Winner getWinnerByParticipantID(Long participantId) {
+        return winnerRepository.getWinnerByParticipantId(participantId);
     }
 
     public Winner getWinnerByPrizeID(Long prizeId) {
         return winnerRepository.getWinnerByPrizeId(prizeId);
     }
 
+    public List<Winner> getWinnersByDrawId(Long drawId) {
+        return winnerRepository.getWinnersByDrawId(drawId);
+    }
 }

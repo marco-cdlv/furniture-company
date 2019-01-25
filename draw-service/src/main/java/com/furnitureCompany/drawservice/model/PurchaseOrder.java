@@ -7,9 +7,7 @@ public class PurchaseOrder implements Serializable {
 
     private Long purchaseOrderId;
     private Long customerId;
-    private Long furnitureId;
     private Date purchaseDate;
-    private int amount;
 
     public PurchaseOrder() {
     }
@@ -30,27 +28,11 @@ public class PurchaseOrder implements Serializable {
         this.purchaseDate = purchaseDate;
     }
 
-    public int getAmount() {
-        return amount;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
-
     public Long getCustomerId() {
         return customerId;
     }
 
     public void setCustomerId(Long customerId) {
         this.customerId = customerId;
-    }
-
-    public Long getFurnitureId() {
-        return furnitureId;
-    }
-
-    public void setFurnitureId(Long furnitureId) {
-        this.furnitureId = furnitureId;
     }
 }

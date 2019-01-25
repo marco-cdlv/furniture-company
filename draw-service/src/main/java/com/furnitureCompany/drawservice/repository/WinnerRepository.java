@@ -8,6 +8,7 @@ import java.util.List;
 
 @Repository
 public interface WinnerRepository extends CrudRepository<Winner, String> {
-    Winner getWinnerByCustomerId(Long customerId);
+    Winner getWinnerByParticipantId(Long participantId);
     Winner getWinnerByPrizeId(Long prizeId);
+    List<Winner> getWinnersByDrawId(Long drawId);
 }
