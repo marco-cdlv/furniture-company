@@ -1,26 +1,13 @@
-package com.furnitureCompany.purchaseorderservice.model;
+package com.furnitureCompany.drawservice.model;
 
-import javax.persistence.*;
+import java.io.Serializable;
 
-@Entity
-@Table(name = "purchase_order_details")
-public class PurchaseOrderDetail {
+public class PurchaseOrderDetail implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "purchase_order_detail_id", unique = true, nullable = false)
     private Long purchaseOrderDetailId;
-
-    @Column(name = "purchase_order_id", nullable = false)
     private Long purchaseOrderId;
-
-    @Column(name = "product_id", nullable = false)
     private Long productId;
-
-    @Column(name = "quantity", nullable = false)
     private int quantity;
-
-    @Column(name = "chances", nullable = false)
     private int chances;
 
     public Long getPurchaseOrderDetailId() {
