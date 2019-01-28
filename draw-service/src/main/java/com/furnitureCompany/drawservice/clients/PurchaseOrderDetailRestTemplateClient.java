@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class PurchaseOrderDetailRestTemplateClient {
@@ -20,11 +21,13 @@ public class PurchaseOrderDetailRestTemplateClient {
     RestTemplate restTemplate;
 
     public List<PurchaseOrderDetail> getPurchaseOrderDetailsByOrderIds(List<Long> orderIds) {
+        String purchaseOrderIds = orderIds.stream().map(id -> id.toString()).collect(Collectors.joining(","));
+
         try {
             ResponseEntity<List> restExchange = restTemplate.exchange(
                     "http://localhost:5555/purchase_order_service/v1/purchaseOrderDetails/orders/{purchase_order_ids}",
                     HttpMethod.GET,
-                    null, List.class, orderIds);
+                    null, List.class, purchaseOrderIds);
             return restExchange.getBody();
         } catch(Exception exception) {
             logger.error("An error occurred trying to get the purchase order details, " + exception.getMessage());

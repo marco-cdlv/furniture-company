@@ -17,6 +17,10 @@ public class TicketService {
         ticketRepository.save(ticket);
     }
 
+    public void addTickets(List<Ticket> tickets) {
+       tickets.forEach(this::addTicket);
+    }
+
     public List<Ticket> getAllTickets() {
         return (List<Ticket>) ticketRepository.findAll();
     }

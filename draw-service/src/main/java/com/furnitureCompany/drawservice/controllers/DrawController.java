@@ -41,10 +41,11 @@ public class DrawController {
         drawService.removeAllDraws();
     }
 
-    @RequestMapping(value = "/draw/{start_date}/{end_date}", method = RequestMethod.GET)
+    @RequestMapping(value = "/draw/{start_date}/{end_date}", method = RequestMethod.POST)
     public List<Winner> drawPrizes(@PathVariable("start_date")@DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
-                                   @PathVariable("end_date")@DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate) {
-        drawService.drawPrize(startDate, endDate);
-        return winnerService.getAllWinners();
+                                   @PathVariable("end_date")@DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate,
+                                   @RequestBody Draw draw) {
+
+        return drawService.drawPrize(startDate, endDate, draw);
     }
 }

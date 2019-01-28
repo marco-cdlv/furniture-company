@@ -12,7 +12,7 @@ public class Prize {
     @PrimaryKeyJoinColumn
     private Long prizeId;
 
-    @Column(name = "draw_id", nullable = false)
+    @Column(name = "draw_id")
     private Long drawId;
 
     @Column(name = "name")

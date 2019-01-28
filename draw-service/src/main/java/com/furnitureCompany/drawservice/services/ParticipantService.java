@@ -19,6 +19,12 @@ public class ParticipantService {
         participantRepository.save(participant);
     }
 
+    public void addParticipants(List<Participant> participants) {
+        if (participants != null && participants.size() > 0) {
+            participants.forEach(this::addParticipant);
+        }
+    }
+
     public List<Participant> getAllParticipants() {
         return (List<Participant>) participantRepository.findAll();
     }

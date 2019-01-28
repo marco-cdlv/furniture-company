@@ -17,6 +17,17 @@ public class WinnerService {
         winnerRepository.save(winner);
     }
 
+    public void saveWinners(List<Winner> winners) {
+
+        if(winners == null || winners.isEmpty()) {
+            return;
+        }
+
+        winners.forEach(winner -> {
+            winnerRepository.save(winner);
+        });
+    }
+
     public List<Winner> getAllWinners() {
         return (List<Winner>) winnerRepository.findAll();
     }
