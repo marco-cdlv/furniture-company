@@ -6,7 +6,8 @@ import com.furnitureCompany.drawservice.clients.PurchaseOrderDetailRestTemplateC
 import com.furnitureCompany.drawservice.clients.PurchaseOrderRestTemplateClient;
 import com.furnitureCompany.drawservice.model.*;
 import com.furnitureCompany.drawservice.repository.DrawRepository;
-import net.bytebuddy.matcher.FilterableList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,10 +33,12 @@ public class DrawService {
     private ParticipantService participantService;
 
     @Autowired
-    private PrizeService prizeService;
+    PrizeService prizeService;
 
     @Autowired
     private WinnerService winnerService;
+
+    private static final Logger logger = LoggerFactory.getLogger(DrawService.class);
 
     public void addDraw(Draw draw) {
         drawRepository.save(draw);
@@ -86,6 +89,7 @@ public class DrawService {
 
             winners.add(winner);
         }
+        logger.debug("DRAW-SERVICE -> Winners: " + winners);
         return winners;
     }
 
@@ -102,6 +106,7 @@ public class DrawService {
 
             participants.add(participant);
         });
+        logger.debug("DRAW-SERVICE -> Participants: " + participants);
         return participants;
     }
 
@@ -119,6 +124,7 @@ public class DrawService {
                 tickets.add(ticket);
             }
         });
+        logger.debug("DRAW-SERVICE -> tickets: " + tickets);
         return tickets;
     }
 
@@ -176,6 +182,9 @@ public class DrawService {
                 count++;
             };
         }
-        return winnerTicketNumbersByParticipant.values().stream().collect(Collectors.toList());
+
+        List<Ticket> winnerTickets = winnerTicketNumbersByParticipant.values().stream().collect(Collectors.toList());
+        logger.debug("DRAW-SERVICE -> Winner tickets: " + winnerTickets);
+        return winnerTickets;
     }
 }
