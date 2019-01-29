@@ -19,7 +19,7 @@ public class WinnerService {
 
     public void saveWinners(List<Winner> winners) {
 
-        if(winners == null || winners.isEmpty()) {
+        if(winners != null && !winners.isEmpty()) {
             return;
         }
 

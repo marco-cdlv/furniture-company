@@ -54,23 +54,26 @@ public class DrawService {
     }
 
     public List<Winner> drawPrize(Date startDate, Date endDate, Draw draw) {
-
         // Adds a new draw
         addDraw(draw);
 
         // Adds the participants to the current draw
         Map<Long, List<Long>> ordersByParticipantId = getOrderIdsByParticipantId(startDate, endDate);
-        addParticipants(draw.getDrawId(), ordersByParticipantId);
+        List<Participant> participants = defineParticipants(draw.getDrawId(), ordersByParticipantId);
+        participantService.addParticipants(participants);
 
         // Generates the tickets and adds it to DB.
         Map<Long, Integer> chancesByCustomerId = getChancesByCustomerId(ordersByParticipantId);
         List<Ticket> tickets = generateTickets(chancesByCustomerId);
+        ticketService.addTickets(tickets);
 
         // Draws the active prizes
-        return drawTheActivePrizes(draw.getDrawId(), tickets);
+        List<Winner> winners = drawTheActivePrizes(draw.getDrawId(), tickets);
+        winnerService.saveWinners(winners);
+        return winners;
     }
 
-    private List<Winner> drawTheActivePrizes(Long drawId, List<Ticket> tickets) {
+    List<Winner> drawTheActivePrizes(Long drawId, List<Ticket> tickets) {
         List<Winner> winners = new ArrayList<>();
         List<Prize> activePrizes = prizeService.getActivePrizes();
         List<Ticket> winnerTickets = getWinnerTickets(tickets, activePrizes.size());
@@ -83,14 +86,15 @@ public class DrawService {
 
             winners.add(winner);
         }
-        //Saves winners
-        winnerService.saveWinners(winners);
         return winners;
     }
 
-    private void addParticipants(Long drawId, Map<Long, List<Long>> ordersByParticipantId) {
-        List<Participant> participants = new ArrayList<>();
+    List<Participant> defineParticipants(Long drawId, Map<Long, List<Long>> ordersByParticipantId) {
+        if(ordersByParticipantId == null || ordersByParticipantId.isEmpty()) {
+            return null;
+        }
 
+        List<Participant> participants = new ArrayList<>();
         ordersByParticipantId.forEach((customerId, orders)-> {
             Participant participant = new Participant();
             participant.setCustomerId(customerId);
@@ -98,13 +102,15 @@ public class DrawService {
 
             participants.add(participant);
         });
-
-        participantService.addParticipants(participants);
+        return participants;
     }
 
-    private List<Ticket> generateTickets(Map<Long, Integer> chancesByCustomerId) {
-        List<Ticket> tickets = new ArrayList<>();
+    List<Ticket> generateTickets(Map<Long, Integer> chancesByCustomerId) {
+        if(chancesByCustomerId == null || chancesByCustomerId.isEmpty()) {
+            return null;
+        }
 
+        List<Ticket> tickets = new ArrayList<>();
         chancesByCustomerId.forEach((customerId, chances) -> {
             for (int index = 0; index < chances; index++) {
                 Ticket ticket = new Ticket();
@@ -113,14 +119,11 @@ public class DrawService {
                 tickets.add(ticket);
             }
         });
-
-        ticketService.addTickets(tickets);
         return tickets;
     }
 
-    private Map<Long, List<Long>> getOrderIdsByParticipantId(Date startDate, Date endDate) {
+    Map<Long, List<Long>> getOrderIdsByParticipantId(Date startDate, Date endDate) {
         Map<Long, List<Long>> ordersByCustomerId = new HashMap<>();
-
         ObjectMapper mapper = new ObjectMapper();
         List<PurchaseOrder> purchaseOrders = mapper.convertValue(purchaseOrderRestTemplateClient.getPurchaseOrdersBetweenDates(startDate, endDate),
                 new TypeReference<List<PurchaseOrder>>(){});
@@ -140,7 +143,7 @@ public class DrawService {
         return ordersByCustomerId;
     }
 
-    private Map<Long, Integer> getChancesByCustomerId(Map<Long, List<Long>> ordersByParticipantId) {
+    Map<Long, Integer> getChancesByCustomerId(Map<Long, List<Long>> ordersByParticipantId) {
         Map<Long, Integer> chancesByCustomerId = new HashMap<>();
         ordersByParticipantId.forEach((customerId, orderIds) -> {
             ObjectMapper mapper = new ObjectMapper();
@@ -153,7 +156,7 @@ public class DrawService {
         return chancesByCustomerId;
     }
 
-    private List<Ticket> getWinnerTickets(List<Ticket> tickets, int amountOfPrizes) {
+    List<Ticket> getWinnerTickets(List<Ticket> tickets, int amountOfPrizes) {
         if (tickets == null || tickets.isEmpty()) {
             return null;
         }
@@ -164,7 +167,7 @@ public class DrawService {
 
         while(count < amountOfPrizes) {
             Random random = new Random();
-            Integer winnerTicketNumber =  random.nextInt(amountOfTickets) + 1;
+            Integer winnerTicketNumber =  random.nextInt(amountOfTickets);
 
             Ticket winnerTicket =  tickets.get(winnerTicketNumber);
 

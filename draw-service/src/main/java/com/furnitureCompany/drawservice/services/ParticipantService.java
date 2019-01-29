@@ -20,7 +20,7 @@ public class ParticipantService {
     }
 
     public void addParticipants(List<Participant> participants) {
-        if (participants != null && participants.size() > 0) {
+        if (participants != null && !participants.isEmpty()) {
             participants.forEach(this::addParticipant);
         }
     }
