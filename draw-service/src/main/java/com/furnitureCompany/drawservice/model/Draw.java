@@ -12,6 +12,9 @@ public class Draw {
     @PrimaryKeyJoinColumn
     private Long drawId;
 
+    @Column(name = "promotion_id")
+    private Long promotionId;
+
     @Column(name = "name")
     private String name;
 
@@ -51,5 +54,13 @@ public class Draw {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Long getPromotionId() {
+        return promotionId;
+    }
+
+    public void setPromotionId(Long promotionId) {
+        this.promotionId = promotionId;
     }
 }

@@ -2,6 +2,7 @@ package com.furnitureCompany.drawservice.services;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.furnitureCompany.drawservice.clients.ProductRestTemplateClient;
 import com.furnitureCompany.drawservice.clients.PurchaseOrderDetailRestTemplateClient;
 import com.furnitureCompany.drawservice.clients.PurchaseOrderRestTemplateClient;
 import com.furnitureCompany.drawservice.model.*;
@@ -36,7 +37,10 @@ public class DrawService {
     PrizeService prizeService;
 
     @Autowired
-    private WinnerService winnerService;
+    PromotionService promotionService;
+
+    @Autowired
+    ProductRestTemplateClient productRestTemplateClient;
 
     private static final Logger logger = LoggerFactory.getLogger(DrawService.class);
 
@@ -56,12 +60,13 @@ public class DrawService {
         drawRepository.deleteAll();
     }
 
-    public List<Winner> drawPrize(Date startDate, Date endDate, Draw draw) {
+    public List<Participant> drawPrize(Draw draw) {
         // Adds a new draw
         addDraw(draw);
+        Promotion promotion = promotionService.getPromotionById(draw.getPromotionId());
 
         // Adds the participants to the current draw
-        Map<Long, List<Long>> ordersByParticipantId = getOrderIdsByParticipantId(startDate, endDate);
+        Map<Long, List<Long>> ordersByParticipantId = getOrderIdsByParticipantId(promotion.getStartDate(), promotion.getEndDate());
         List<Participant> participants = defineParticipants(draw.getDrawId(), ordersByParticipantId);
         participantService.addParticipants(participants);
 
@@ -71,26 +76,25 @@ public class DrawService {
         ticketService.addTickets(tickets);
 
         // Draws the active prizes
-        List<Winner> winners = drawTheActivePrizes(draw.getDrawId(), tickets);
-        winnerService.saveWinners(winners);
+        List<Participant> winners = drawTheActivePrizes(draw.getDrawId(), tickets);
+        participantService.addWinners(winners);
         return winners;
     }
 
-    List<Winner> drawTheActivePrizes(Long drawId, List<Ticket> tickets) {
-        List<Winner> winners = new ArrayList<>();
+    List<Participant> drawTheActivePrizes(Long drawId, List<Ticket> tickets) {
+        List<Participant> participants = new ArrayList<>();
         List<Prize> activePrizes = prizeService.getActivePrizes();
         List<Ticket> winnerTickets = getWinnerTickets(tickets, activePrizes.size());
 
         for (int index = 0; index < activePrizes.size(); index++) {
-            Winner winner = new Winner();
-            winner.setParticipantId(winnerTickets.get(index).getParticipantId());
-            winner.setPrizeId(activePrizes.get(index).getPrizeId());
-            winner.setDrawId(drawId);
-
-            winners.add(winner);
+            Participant participant = new Participant();
+            participant.setParticipantId(winnerTickets.get(index).getParticipantId());
+            participant.setDrawId(drawId);
+            participant.setWinner(true);
+            participants.add(participant);
         }
-        logger.debug("DRAW-SERVICE -> Winners: " + winners);
-        return winners;
+        logger.debug("DRAW-SERVICE -> Winners: " + participants);
+        return participants;
     }
 
     List<Participant> defineParticipants(Long drawId, Map<Long, List<Long>> ordersByParticipantId) {

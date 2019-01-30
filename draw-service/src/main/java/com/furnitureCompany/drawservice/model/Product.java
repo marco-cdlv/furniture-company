@@ -10,6 +10,7 @@ public class Product implements Serializable {
     private String model;
     private int amount;
     private String color;
+    private int numberChances;
 
     public Long getId() {
         return id;
@@ -49,5 +50,13 @@ public class Product implements Serializable {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public int getNumberChances() {
+        return numberChances;
+    }
+
+    public void setNumberChances(int numberChances) {
+        this.numberChances = numberChances;
     }
 }

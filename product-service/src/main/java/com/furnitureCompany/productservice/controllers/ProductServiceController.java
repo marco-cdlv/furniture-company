@@ -24,6 +24,11 @@ public class ProductServiceController {
         return productService.getProducts();
     }
 
+    @RequestMapping(value = "/productIds/{product_ids}", method = RequestMethod.GET)
+    public List<Product> getProductsByIds(@PathVariable("product_ids") List<Long> productIds) {
+        return productService.getProductByIds(productIds);
+    }
+
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Product getProduct(@PathVariable("id") Long productId) {
         return productService.getProductById(productId);

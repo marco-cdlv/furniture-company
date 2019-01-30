@@ -25,13 +25,23 @@ public class ParticipantController {
         return participantService.getParticipantById(participantId);
     }
 
-    @RequestMapping(value = "/draw/{draw_id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/participants/{draw_id}", method = RequestMethod.GET)
     public List<Participant> geParticipantsByDraw(@PathVariable("draw_id") Long drawId) {
         return participantService.getParticipantsByDrawId(drawId);
+    }
+
+    @RequestMapping(value = "/winners/{draw_id}", method = RequestMethod.GET)
+    public List<Participant> getWinnersByDraw(@PathVariable("draw_id") Long drawId) {
+        return participantService.getWinnersByDrawId(drawId);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public void addParticipant(@RequestBody Participant participant) {
         participantService.addParticipant(participant);
+    }
+
+    @RequestMapping(value = "/winners/", method = RequestMethod.POST)
+    public void addParticipants(@RequestBody List<Participant> participants) {
+        participantService.addWinners(participants);
     }
 }

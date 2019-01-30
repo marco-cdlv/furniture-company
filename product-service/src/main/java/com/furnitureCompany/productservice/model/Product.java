@@ -23,6 +23,9 @@ public class Product {
     @Column(name = "color")
     private String color;
 
+    @Column(name = "number_chances")
+    private int numberChances;
+
     public String getName() {
         return name;
     }
@@ -61,5 +64,13 @@ public class Product {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public int getNumberChances() {
+        return numberChances;
+    }
+
+    public void setNumberChances(int numberChances) {
+        this.numberChances = numberChances;
     }
 }

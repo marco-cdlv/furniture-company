@@ -7,6 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 public class ProductRestTemplateClient {
 
@@ -18,6 +21,16 @@ public class ProductRestTemplateClient {
                 "http://localhost:5555/product_service/v1/products/{id}",
                 HttpMethod.GET,
                 null, Product.class, productId);
+
+        return restExchange.getBody();
+    }
+
+    public Product getProductsByIds(List<Long> productIds) {
+        String ids = productIds.stream().map(id -> id.toString()).collect(Collectors.joining(","));
+        ResponseEntity<Product> restExchange = restTemplate.exchange(
+                "http://localhost:5555/product_service/v1/products/productIds/{product_ids}",
+                HttpMethod.GET,
+                null, Product.class, ids);
 
         return restExchange.getBody();
     }

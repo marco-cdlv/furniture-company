@@ -20,9 +20,6 @@ public class PurchaseOrderDetail {
     @Column(name = "quantity", nullable = false)
     private int quantity;
 
-    @Column(name = "chances", nullable = false)
-    private int chances;
-
     public Long getPurchaseOrderDetailId() {
         return purchaseOrderDetailId;
     }
@@ -55,11 +52,4 @@ public class PurchaseOrderDetail {
         this.quantity = quantity;
     }
 
-    public int getChances() {
-        return chances;
-    }
-
-    public void setChances(int chances) {
-        this.chances = chances;
-    }
 }

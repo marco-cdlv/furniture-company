@@ -17,6 +17,9 @@ public class Participant {
     @Column(name = "customer_id", nullable = false)
     private Long customerId;
 
+    @Column(name = "winner")
+    private boolean winner;
+
     public Long getParticipantId() {
         return participantId;
     }
@@ -39,5 +42,13 @@ public class Participant {
 
     public void setCustomerId(Long customerId) {
         this.customerId = customerId;
+    }
+
+    public boolean isWinner() {
+        return winner;
+    }
+
+    public void setWinner(boolean winner) {
+        this.winner = winner;
     }
 }

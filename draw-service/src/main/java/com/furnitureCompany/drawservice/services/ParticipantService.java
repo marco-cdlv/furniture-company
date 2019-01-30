@@ -20,9 +20,7 @@ public class ParticipantService {
     }
 
     public void addParticipants(List<Participant> participants) {
-        if (participants != null && !participants.isEmpty()) {
-            participants.forEach(this::addParticipant);
-        }
+        participantRepository.saveAll(participants);
     }
 
     public List<Participant> getAllParticipants() {
@@ -35,5 +33,13 @@ public class ParticipantService {
 
     public List<Participant> getParticipantsByDrawId(Long drawId) {
         return participantRepository.getParticipantsByDrawId(drawId);
+    }
+
+    public List<Participant> getWinnersByDrawId(Long drawId) {
+        return participantRepository.getParticipantsByWinnerAndDrawId( true, drawId);
+    }
+
+    public void addWinners(List<Participant> participants) {
+        participantRepository.saveAll(participants);
     }
 }

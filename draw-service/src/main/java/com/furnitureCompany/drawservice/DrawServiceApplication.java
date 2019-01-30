@@ -18,6 +18,5 @@ public class DrawServiceApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(DrawServiceApplication.class, args);
 	}
-
 }
 

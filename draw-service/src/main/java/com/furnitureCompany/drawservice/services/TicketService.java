@@ -18,9 +18,7 @@ public class TicketService {
     }
 
     public void addTickets(List<Ticket> tickets) {
-        if(tickets != null && !tickets.isEmpty()){
-            tickets.forEach(this::addTicket);
-        }
+        ticketRepository.saveAll(tickets);
     }
 
     public List<Ticket> getAllTickets() {

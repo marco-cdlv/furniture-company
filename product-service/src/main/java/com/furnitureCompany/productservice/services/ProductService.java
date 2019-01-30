@@ -27,6 +27,10 @@ public class ProductService {
         return products;
     }
 
+    public List<Product> getProductByIds(List<Long> productIds) {
+        return productRepository.findProductsByIdIn(productIds);
+    }
+
     public void updateProduct(Product product, Long productId) {
         Product productToUpdate = productRepository.findProductById(productId);
 

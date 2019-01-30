@@ -19,8 +19,6 @@ public class PurchaseOrderDetailService {
     private ProductRestTemplateClient productRestTemplateClient;
 
     public void addPurchaseOrderDetail(PurchaseOrderDetail purchaseOrderDetail) {
-        Product product = productRestTemplateClient.getProductsById(purchaseOrderDetail.getProductId());
-        purchaseOrderDetail.setChances(getChanceByModel(product.getModel()) * purchaseOrderDetail.getQuantity());
         purchaseOrderDetailRepository.save(purchaseOrderDetail);
     }
 

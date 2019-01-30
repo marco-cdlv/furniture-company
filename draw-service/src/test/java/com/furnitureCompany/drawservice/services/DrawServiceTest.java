@@ -35,9 +35,6 @@ public class DrawServiceTest {
     @Injectable
     PrizeService prizeService;
 
-    @Injectable
-    WinnerService winnerService;
-
     private Long drawId;
 
     @Before
@@ -122,7 +119,7 @@ public class DrawServiceTest {
         }};
 
         // execute
-        List<Winner> results = drawService.drawTheActivePrizes(drawId, tickets);
+        List<Participant> results = drawService.drawTheActivePrizes(drawId, tickets);
 
         // verify
         assert results != null && !results.isEmpty();
