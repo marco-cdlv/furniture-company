@@ -25,12 +25,12 @@ public class ProductRestTemplateClient {
         return restExchange.getBody();
     }
 
-    public Product getProductsByIds(List<Long> productIds) {
+    public List<Product> getProductsByIds(List<Long> productIds) {
         String ids = productIds.stream().map(id -> id.toString()).collect(Collectors.joining(","));
-        ResponseEntity<Product> restExchange = restTemplate.exchange(
+        ResponseEntity<List> restExchange = restTemplate.exchange(
                 "http://localhost:5555/product_service/v1/products/productIds/{product_ids}",
                 HttpMethod.GET,
-                null, Product.class, ids);
+                null, List.class, ids);
 
         return restExchange.getBody();
     }

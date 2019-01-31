@@ -24,4 +24,8 @@ public class PromotionService {
     public void addPromotion(Promotion promotion) {
         promotionRepository.save(promotion);
     }
+
+    public void addPromotions(List<Promotion> promotions) {
+        promotionRepository.saveAll(promotions);
+    }
 }

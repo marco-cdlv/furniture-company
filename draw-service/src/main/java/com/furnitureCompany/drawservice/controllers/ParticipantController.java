@@ -25,7 +25,7 @@ public class ParticipantController {
         return participantService.getParticipantById(participantId);
     }
 
-    @RequestMapping(value = "/participants/{draw_id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/byDraw/{draw_id}", method = RequestMethod.GET)
     public List<Participant> geParticipantsByDraw(@PathVariable("draw_id") Long drawId) {
         return participantService.getParticipantsByDrawId(drawId);
     }

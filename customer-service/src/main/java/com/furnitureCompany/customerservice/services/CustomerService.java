@@ -54,4 +54,8 @@ public class CustomerService {
     public List<Customer> getCustomersByIds(List<Long> customerIds) {
         return customerRepository.findCustomersByCustomerIdIn(customerIds);
     }
+
+    public void addCustomers(List<Customer> customers) {
+        customerRepository.saveAll(customers);
+    }
 }

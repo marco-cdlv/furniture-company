@@ -15,12 +15,6 @@ public class Draw {
     @Column(name = "promotion_id")
     private Long promotionId;
 
-    @Column(name = "name")
-    private String name;
-
-    @Column(name = "description")
-    private String description;
-
     @Column(name = "draw_date")
     private Date drawDate;
 
@@ -32,18 +26,6 @@ public class Draw {
         this.drawId = drawId;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public Date getDrawDate() {
         return drawDate;
     }
@@ -52,9 +34,6 @@ public class Draw {
         this.drawDate = drawDate;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public Long getPromotionId() {
         return promotionId;

@@ -29,4 +29,9 @@ public class PromotionController {
         promotionService.addPromotion(promotion);
     }
 
+    @RequestMapping(value = "/many/", method = RequestMethod.POST)
+    public void addPromotions(@RequestBody List<Promotion> promotions) {
+        promotionService.addPromotions(promotions);
+    }
+
 }

@@ -8,7 +8,6 @@ public class PurchaseOrderDetail implements Serializable {
     private Long purchaseOrderId;
     private Long productId;
     private int quantity;
-    private int chances;
 
     public Long getPurchaseOrderDetailId() {
         return purchaseOrderDetailId;
@@ -40,13 +39,5 @@ public class PurchaseOrderDetail implements Serializable {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
-    }
-
-    public int getChances() {
-        return chances;
-    }
-
-    public void setChances(int chances) {
-        this.chances = chances;
     }
 }

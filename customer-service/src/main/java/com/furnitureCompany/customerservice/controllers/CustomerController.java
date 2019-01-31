@@ -36,6 +36,11 @@ public class CustomerController {
         customerService.addCustomer(customer);
     }
 
+    @RequestMapping(value = "/all/", method = RequestMethod.POST)
+    public void addCustomers(@RequestBody List<Customer> customers) {
+        customerService.addCustomers(customers);
+    }
+
     @RequestMapping(value = "/{customerId}", method = RequestMethod.PUT)
     public void updateCustomer(@PathVariable("customerId") Long customerId, @RequestBody Customer customer) {
         customerService.updateCustomer(customer, customerId);

@@ -1,9 +1,11 @@
 package com.furnitureCompany.drawservice.services;
 
+import com.furnitureCompany.drawservice.clients.ProductRestTemplateClient;
 import com.furnitureCompany.drawservice.clients.PurchaseOrderDetailRestTemplateClient;
 import com.furnitureCompany.drawservice.clients.PurchaseOrderRestTemplateClient;
 import com.furnitureCompany.drawservice.model.*;
 import com.furnitureCompany.drawservice.repository.DrawRepository;
+import com.furnitureCompany.drawservice.utils.ProductSetup;
 import mockit.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,6 +36,9 @@ public class DrawServiceTest {
 
     @Injectable
     PrizeService prizeService;
+
+    @Injectable
+    ProductRestTemplateClient productRestTemplateClient;
 
     private Long drawId;
 
@@ -108,10 +113,11 @@ public class DrawServiceTest {
     }
 
     @Test
-    public void test_drawTheActivePrizes_ItShouldReturnTheListOfWinners( ) {
+    public void test_drawTheActivePrizes_ItShouldReturnTheListOfWinners( ) throws Exception {
         // setup
         List<Ticket> tickets = getTickets(10);
         List<Prize> activePrizes = getPrizes(3, drawId);
+        List<Participant> participants = getParticipants(3, drawId);
 
         new Expectations() {{
             prizeService.getActivePrizes();
@@ -119,7 +125,7 @@ public class DrawServiceTest {
         }};
 
         // execute
-        List<Participant> results = drawService.drawTheActivePrizes(drawId, tickets);
+        List<Participant> results = drawService.drawTheActivePrizes(drawId, participants, tickets);
 
         // verify
         assert results != null && !results.isEmpty();
@@ -128,13 +134,16 @@ public class DrawServiceTest {
     @Test
     public void test_getChancesByCustomerId_ItShouldReturnAMapWithChancesByCustomer() {
         // setup
-        List<PurchaseOrderDetail> purchaseOrderDetails = getPurchaseOrderDetail(2);
+
         Map<Long, List<Long>> ordersByParticipantId = new HashMap<>();
         ordersByParticipantId.put(1L, new ArrayList<>(Arrays.asList(1L)));
 
         new Expectations(){{
             purchaseOrderDetailRestTemplateClient.getPurchaseOrderDetailsByOrderIds((List<Long>) any);
-            result = purchaseOrderDetails;
+            result = getPurchaseOrderDetail(1);;
+
+            productRestTemplateClient.getProductsByIds((List<Long>) any);
+            result = getProducts(1);
         }};
 
         // execute
@@ -213,10 +222,9 @@ public class DrawServiceTest {
         for(int index = 0; index < numberOfPurchaseOrderDetail; index++) {
             PurchaseOrderDetail purchaseOrderDetail = new PurchaseOrderDetail();
             purchaseOrderDetail.setPurchaseOrderDetailId(1L + index);
-            purchaseOrderDetail.setPurchaseOrderId(2L + index);
+            purchaseOrderDetail.setPurchaseOrderId(1L + index);
             purchaseOrderDetail.setProductId(1L + index);
             purchaseOrderDetail.setQuantity(2 + index);
-            purchaseOrderDetail.setChances(2 + index);
             purchaseOrderDetails.add(purchaseOrderDetail);
         }
         return purchaseOrderDetails;
@@ -232,5 +240,33 @@ public class DrawServiceTest {
             purchaseOrders.add(purchaseOrder);
         }
         return purchaseOrders;
+    }
+
+    private List<Product> getProducts(int amountOfProducts) {
+        List<Product> products = new ArrayList<>();
+        for(int index = 0; index < amountOfProducts; index++) {
+            Product product = new Product();
+            product.setId((long) index);
+            product.setName(ProductSetup.names.get(index));
+            product.setModel(ProductSetup.models.get(index));
+            product.setColor(ProductSetup.colors.get(index));
+            product.setNumberChances(ProductSetup.chances.get(index));
+            product.setAmount(2);
+            products.add(product);
+        }
+        return products;
+    }
+
+    private List<Participant> getParticipants(int amountOfParticipants, Long drawId) {
+        List<Participant> participants = new ArrayList<>();
+        for(int index = 0; index < amountOfParticipants; index++) {
+            Participant participant = new Participant();
+            participant.setParticipantId(1L + index);
+            participant.setCustomerId(1L+ index);
+            participant.setDrawId(drawId);
+            participant.setWinner(false);
+            participants.add(participant);
+        }
+        return participants;
     }
 }

@@ -37,8 +37,8 @@ public class DrawController {
         drawService.removeAllDraws();
     }
 
-    @RequestMapping(value = "/draw/{start_date}/{end_date}", method = RequestMethod.POST)
-    public List<Participant> drawPrizes(@RequestBody Draw draw) {
+    @RequestMapping(value = "/start/", method = RequestMethod.POST)
+    public List<Participant> drawPrizes(@RequestBody Draw draw) throws Exception {
         return drawService.drawPrize(draw);
     }
 }

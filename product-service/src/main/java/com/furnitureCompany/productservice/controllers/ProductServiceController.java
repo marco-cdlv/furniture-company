@@ -39,7 +39,12 @@ public class ProductServiceController {
         productService.saveProduct(product);
     }
 
-    @RequestMapping(value = "{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/all/", method = RequestMethod.POST)
+    public void saveProducts(@RequestBody List<Product> products) {
+        productService.saveProducts(products);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public void updateProduct(@PathVariable("id") Long productId, @RequestBody Product product) {
         productService.updateProduct(product, productId);
     }

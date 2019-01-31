@@ -45,4 +45,8 @@ public class ProductService {
     public void deleteProduct(String productId) {
         productRepository.deleteById(productId);
     }
+
+    public void saveProducts(List<Product> products) {
+        productRepository.saveAll(products);
+    }
 }
