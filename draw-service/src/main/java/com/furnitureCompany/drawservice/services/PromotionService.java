@@ -28,4 +28,15 @@ public class PromotionService {
     public void addPromotions(List<Promotion> promotions) {
         promotionRepository.saveAll(promotions);
     }
+
+    public void updatePromotion(Promotion promotion, Long promotionId) {
+        Promotion promotionToUpdate = promotionRepository.getPromotionByPromotionId(promotionId);
+
+        promotionToUpdate.setName(promotion.getName());
+        promotionToUpdate.setStartDate(promotion.getStartDate());
+        promotionToUpdate.setEndDate(promotion.getEndDate());
+        promotionToUpdate.setDescription(promotion.getDescription());
+
+        promotionRepository.save(promotionToUpdate);
+    }
 }

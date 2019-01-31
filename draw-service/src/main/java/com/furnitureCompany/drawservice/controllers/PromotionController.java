@@ -24,6 +24,11 @@ public class PromotionController {
         return promotionService.getPromotionById(promotionId);
     }
 
+    @RequestMapping(value = "/update/{promotion_id}", method = RequestMethod.PUT)
+    public void updatePromotion(@RequestBody Promotion promotion, @PathVariable("promotion_id") Long promotionId) {
+        promotionService.updatePromotion(promotion, promotionId);
+    }
+
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public void addPromotion(@RequestBody Promotion promotion) {
         promotionService.addPromotion(promotion);

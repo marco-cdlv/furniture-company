@@ -7,7 +7,9 @@ import com.furnitureCompany.drawservice.repository.ParticipantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ParticipantService {
@@ -41,5 +43,20 @@ public class ParticipantService {
 
     public void addWinners(List<Participant> participants) {
         participantRepository.saveAll(participants);
+    }
+
+    public List<Participant> defineParticipants(Long drawId, Map<Long, List<Long>> ordersByParticipantId) {
+        if(ordersByParticipantId == null || ordersByParticipantId.isEmpty()) {
+            return null;
+        }
+
+        List<Participant> participants = new ArrayList<>();
+        ordersByParticipantId.forEach((customerId, orders)-> {
+            Participant participant = new Participant();
+            participant.setCustomerId(customerId);
+            participant.setDrawId(drawId);
+            participants.add(participant);
+        });
+        return participants;
     }
 }
