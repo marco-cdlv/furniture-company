@@ -11,8 +11,8 @@ public class Participant {
     @Column(name = "participant_id", unique = true, nullable = false)
     private Long participantId;
 
-    @Column(name = "draw_id", nullable = false)
-    private Long drawId;
+    @Column(name = "promotion_id", nullable = false)
+    private Long promotionId;
 
     @Column(name = "customer_id", nullable = false)
     private Long customerId;
@@ -26,14 +26,6 @@ public class Participant {
 
     public void setParticipantId(Long participantId) {
         this.participantId = participantId;
-    }
-
-    public Long getDrawId() {
-        return drawId;
-    }
-
-    public void setDrawId(Long drawId) {
-        this.drawId = drawId;
     }
 
     public Long getCustomerId() {
@@ -50,5 +42,18 @@ public class Participant {
 
     public void setWinner(boolean winner) {
         this.winner = winner;
+    }
+
+    public Boolean getWinner() {
+        return winner;
+    }
+
+
+    public Long getPromotionId() {
+        return promotionId;
+    }
+
+    public void setPromotionId(Long promotionId) {
+        this.promotionId = promotionId;
     }
 }

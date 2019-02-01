@@ -12,8 +12,8 @@ public class Prize {
     @PrimaryKeyJoinColumn
     private Long prizeId;
 
-    @Column(name = "draw_id")
-    private Long drawId;
+    @Column(name = "promotion_id")
+    private Long promotionId;
 
     @Column(name = "name")
     private String name;
@@ -56,11 +56,15 @@ public class Prize {
         this.active = active;
     }
 
-    public Long getDrawId() {
-        return drawId;
+    public Boolean getActive() {
+        return active;
     }
 
-    public void setDrawId(Long drawId) {
-        this.drawId = drawId;
+    public Long getPromotionId() {
+        return promotionId;
+    }
+
+    public void setPromotionId(Long promotionId) {
+        this.promotionId = promotionId;
     }
 }

@@ -25,23 +25,35 @@ public class ParticipantController {
         return participantService.getParticipantById(participantId);
     }
 
-    @RequestMapping(value = "/byDraw/{draw_id}", method = RequestMethod.GET)
-    public List<Participant> geParticipantsByDraw(@PathVariable("draw_id") Long drawId) {
-        return participantService.getParticipantsByDrawId(drawId);
+    @RequestMapping(value = "/promotions/{promotion_id}", method = RequestMethod.GET)
+    public List<Participant> geParticipantsByPromotionId(@PathVariable("promotion_id") Long promotionId) {
+        return participantService.getParticipantsByPromotionId(promotionId);
     }
 
-    @RequestMapping(value = "/winners/{draw_id}", method = RequestMethod.GET)
-    public List<Participant> getWinnersByDraw(@PathVariable("draw_id") Long drawId) {
-        return participantService.getWinnersByDrawId(drawId);
+    @RequestMapping(value = "/winner/{winner}/promotions/{promotion_id}", method = RequestMethod.GET)
+    public List<Participant> getWinnersByPromotionId(@PathVariable("winner") boolean winner,
+                                              @PathVariable("promotion_id") Long promotionId) {
+        return participantService.getWinnersByPromotionId(winner, promotionId);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public void addParticipant(@RequestBody Participant participant) {
-        participantService.addParticipant(participant);
+    public Participant addParticipant(@RequestBody Participant participant) {
+        return participantService.addParticipant(participant);
     }
 
-    @RequestMapping(value = "/winners/", method = RequestMethod.POST)
+    @RequestMapping(value = "/participants", method = RequestMethod.POST)
     public void addParticipants(@RequestBody List<Participant> participants) {
         participantService.addWinners(participants);
+    }
+
+    @RequestMapping(value = "/", method = RequestMethod.DELETE)
+    public void deleteParticipants(@RequestBody List<Participant> participants) {
+        participantService.deleteParticipants();
+    }
+
+    @RequestMapping(value = "/{participant_id}", method = RequestMethod.PUT)
+    public Participant updateParticipant(@PathVariable("participant_id") Long participantId,
+                                   @RequestBody Participant participant) {
+        return participantService.updateParticipant(participantId, participant);
     }
 }

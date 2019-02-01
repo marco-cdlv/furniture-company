@@ -21,22 +21,31 @@ public class PromotionService {
         return promotionRepository.getPromotionByPromotionId(promotionId);
     }
 
-    public void addPromotion(Promotion promotion) {
-        promotionRepository.save(promotion);
+    public Promotion addPromotion(Promotion promotion) {
+        return promotionRepository.save(promotion);
     }
 
     public void addPromotions(List<Promotion> promotions) {
         promotionRepository.saveAll(promotions);
     }
 
-    public void updatePromotion(Promotion promotion, Long promotionId) {
+    public Promotion updatePromotion(Promotion promotion, Long promotionId) {
         Promotion promotionToUpdate = promotionRepository.getPromotionByPromotionId(promotionId);
 
         promotionToUpdate.setName(promotion.getName());
         promotionToUpdate.setStartDate(promotion.getStartDate());
         promotionToUpdate.setEndDate(promotion.getEndDate());
         promotionToUpdate.setDescription(promotion.getDescription());
+        promotionToUpdate.setActive(promotion.getActive() != null? promotion.getActive() : promotionToUpdate.getActive());
 
-        promotionRepository.save(promotionToUpdate);
+        return promotionRepository.save(promotionToUpdate);
+    }
+
+    public List<Promotion> getAllActivePromotions(boolean active) {
+        return promotionRepository.getPromotionsByActive(active);
+    }
+
+    public void deleteAllPromotions() {
+        promotionRepository.deleteAll();
     }
 }

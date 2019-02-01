@@ -9,6 +9,7 @@ import java.util.List;
 @Repository
 public interface PrizeRepository extends CrudRepository<Prize, String> {
     Prize getPrizeByPrizeId(Long prizeId);
-    List<Prize> getPrizesByDrawId(Long drawId);
-    //List<Prize> getPrizesByActive();
+    List<Prize> getPrizesByPromotionId(Long promotionId);
+    List<Prize> getPrizesByActive(boolean active);
+    List<Prize> getPrizesByPromotionIdAndActive(Long promotionId, boolean active);
 }

@@ -4,7 +4,6 @@ import com.furnitureCompany.drawservice.clients.ProductRestTemplateClient;
 import com.furnitureCompany.drawservice.clients.PurchaseOrderDetailRestTemplateClient;
 import com.furnitureCompany.drawservice.clients.PurchaseOrderRestTemplateClient;
 import com.furnitureCompany.drawservice.model.*;
-import com.furnitureCompany.drawservice.repository.DrawRepository;
 import com.furnitureCompany.drawservice.utils.Utils;
 import mockit.*;
 import org.junit.Before;
@@ -16,9 +15,6 @@ public class DrawServiceTest {
 
     @Tested
     DrawService drawService;
-
-    @Injectable
-    DrawRepository drawRepository;
 
     @Injectable
     PurchaseOrderRestTemplateClient purchaseOrderRestTemplateClient;
@@ -53,7 +49,7 @@ public class DrawServiceTest {
         List<Participant> participants = Utils.getParticipants(3, drawId);
 
         new Expectations() {{
-            prizeService.getActivePrizes();
+            prizeService.getActivePrizes(anyBoolean);
             result = activePrizes;
 
             ticketService.getWinnerTickets((List<Ticket>)any, anyInt);

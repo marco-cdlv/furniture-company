@@ -10,4 +10,5 @@ import java.util.List;
 public interface TicketRepository extends CrudRepository<Ticket, String> {
     List<Ticket> getTicketsByParticipantId(Long participantId);
     Ticket getTicketByTicketId(Long ticketId);
+    //List<Ticket> saveAll(List<Ticket> tickets);
 }

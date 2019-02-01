@@ -6,20 +6,15 @@ import com.furnitureCompany.drawservice.clients.ProductRestTemplateClient;
 import com.furnitureCompany.drawservice.clients.PurchaseOrderDetailRestTemplateClient;
 import com.furnitureCompany.drawservice.clients.PurchaseOrderRestTemplateClient;
 import com.furnitureCompany.drawservice.model.*;
-import com.furnitureCompany.drawservice.repository.DrawRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class DrawService {
-
-    @Autowired
-    private DrawRepository drawRepository;
 
     @Autowired
     private PurchaseOrderRestTemplateClient purchaseOrderRestTemplateClient;
@@ -44,33 +39,15 @@ public class DrawService {
 
     private static final Logger logger = LoggerFactory.getLogger(DrawService.class);
 
-    public void addDraw(Draw draw) {
-        drawRepository.save(draw);
-    }
-
-    public List<Draw> getAllDraws() {
-        return (List<Draw>) drawRepository.findAll();
-    }
-
-    public Draw getDrawById(Long drawId) {
-        return drawRepository.getDrawByDrawId(drawId);
-    }
-
-    public void removeAllDraws() {
-        drawRepository.deleteAll();
-    }
-
-    public List<Participant> drawPrize(Draw draw) throws Exception {
-        Promotion promotion = promotionService.getPromotionById(draw.getPromotionId());
+    public List<Participant> drawPrize(Long promotionId) throws Exception {
+        Promotion promotion = promotionService.getPromotionById(promotionId);
 
         if (promotion == null) {
             throw new Exception("The sent promotion id does not exists!!");
         }
-        addDraw(draw);
-
         // Adds the participants to the current draw
         Map<Long, List<Long>> ordersByParticipantId = getOrderIdsByParticipantId(promotion.getStartDate(), promotion.getEndDate());
-        List<Participant> participants = participantService.defineParticipants(draw.getDrawId(), ordersByParticipantId);
+        List<Participant> participants = participantService.defineParticipants(promotion.getPromotionId(), ordersByParticipantId);
 
         if (participants == null || participants.isEmpty()) {
             throw new Exception(String.valueOf(new StringBuilder("Not found participants for the promotion dates: ")
@@ -87,14 +64,20 @@ public class DrawService {
         ticketService.addTickets(tickets);
 
         // Draws the active prizes
-        List<Participant> winners = drawTheActivePrizes(draw.getDrawId(), participants, tickets);
+        List<Participant> winners = drawTheActivePrizes(promotion.getPromotionId(), participants, tickets);
+
+        if (winners != null && !winners.isEmpty()) {
+            promotion.setActive(false);
+            promotionService.updatePromotion(promotion,promotionId);
+        }
+
         participantService.addWinners(winners);
         return winners;
     }
 
-    List<Participant> drawTheActivePrizes(Long drawId, List<Participant> participants, List<Ticket> tickets) throws Exception {
+    List<Participant> drawTheActivePrizes(Long promotionId, List<Participant> participants, List<Ticket> tickets) throws Exception {
         List<Participant> winners = new ArrayList<>();
-        List<Prize> activePrizes = prizeService.getActivePrizes();
+        List<Prize> activePrizes = prizeService.getActivePrizesByPromotionId(promotionId, true);
 
         if (activePrizes == null || activePrizes.isEmpty()) {
             throw new Exception("Not found prizes, please ensure that prizes were registered!!");
@@ -112,7 +95,7 @@ public class DrawService {
             if (winner != null) {
                 winner.setWinner(true);
                 winners.add(winner);
-                activePrizes.get(index).setDrawId(drawId);
+                activePrizes.get(index).setPromotionId(promotionId);
                 activePrizes.get(index).setActive(false);
             }
         }

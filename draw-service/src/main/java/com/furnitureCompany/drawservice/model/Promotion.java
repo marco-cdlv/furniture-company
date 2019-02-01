@@ -24,6 +24,9 @@ public class Promotion {
     @Column(name = "end_date")
     private Date endDate;
 
+    @Column(name = "active")
+    private Boolean active;
+
     public Long getPromotionId() {
         return promotionId;
     }
@@ -62,5 +65,13 @@ public class Promotion {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 }

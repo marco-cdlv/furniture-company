@@ -1,8 +1,6 @@
 package com.furnitureCompany.drawservice.services;
 
-import com.furnitureCompany.drawservice.model.Draw;
 import com.furnitureCompany.drawservice.model.Participant;
-import com.furnitureCompany.drawservice.repository.DrawRepository;
 import com.furnitureCompany.drawservice.repository.ParticipantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,12 +15,12 @@ public class ParticipantService {
     @Autowired
     private ParticipantRepository participantRepository;
 
-    public void addParticipant(Participant participant) {
-        participantRepository.save(participant);
+    public Participant addParticipant(Participant participant) {
+        return participantRepository.save(participant);
     }
 
     public void addParticipants(List<Participant> participants) {
-        participantRepository.saveAll(participants);
+        participantRepository .saveAll(participants);
     }
 
     public List<Participant> getAllParticipants() {
@@ -33,19 +31,19 @@ public class ParticipantService {
         return participantRepository.getParticipantByParticipantId(participantId);
     }
 
-    public List<Participant> getParticipantsByDrawId(Long drawId) {
-        return participantRepository.getParticipantsByDrawId(drawId);
+    public List<Participant> getParticipantsByPromotionId(Long promotionId) {
+        return participantRepository.getParticipantsByPromotionId(promotionId);
     }
 
-    public List<Participant> getWinnersByDrawId(Long drawId) {
-        return participantRepository.getParticipantsByWinnerAndDrawId( true, drawId);
+    public List<Participant> getWinnersByPromotionId(Boolean winner, Long promotionId) {
+        return participantRepository.getParticipantsByWinnerAndPromotionId( winner, promotionId);
     }
 
     public void addWinners(List<Participant> participants) {
         participantRepository.saveAll(participants);
     }
 
-    public List<Participant> defineParticipants(Long drawId, Map<Long, List<Long>> ordersByParticipantId) {
+    public List<Participant> defineParticipants(Long promotionId, Map<Long, List<Long>> ordersByParticipantId) {
         if(ordersByParticipantId == null || ordersByParticipantId.isEmpty()) {
             return null;
         }
@@ -54,9 +52,23 @@ public class ParticipantService {
         ordersByParticipantId.forEach((customerId, orders)-> {
             Participant participant = new Participant();
             participant.setCustomerId(customerId);
-            participant.setDrawId(drawId);
+            participant.setPromotionId(promotionId);
             participants.add(participant);
         });
         return participants;
+    }
+
+    public void deleteParticipants() {
+        participantRepository.deleteAll();
+    }
+
+    public Participant updateParticipant(Long participantId, Participant participant) {
+        Participant participantToUpdate = participantRepository.getParticipantByParticipantId(participantId);
+
+        participantToUpdate.setPromotionId(participant.getPromotionId() != null?
+                participant.getPromotionId(): participantToUpdate.getPromotionId());
+        participantToUpdate.setWinner(participant.getWinner() != null? participant.getWinner() : participantToUpdate.getWinner());
+        participantToUpdate.setCustomerId(participant.getCustomerId() != null? participant.getCustomerId() : participantToUpdate.getCustomerId());
+        return participantRepository.save(participantToUpdate);
     }
 }

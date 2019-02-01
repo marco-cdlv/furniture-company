@@ -15,25 +15,44 @@ public class PrizeService {
     @Autowired
     private PrizeRepository prizeRepository;
 
-    public List<Prize> getActivePrizes() {
-        return  StreamSupport.stream(prizeRepository.findAll().spliterator(), false)
-                .filter(prize -> prize.isActive())
-                .collect(Collectors.toList());
+    public List<Prize> getActivePrizes(boolean active) {
+        return  prizeRepository.getPrizesByActive(active);
+    }
+
+    public List<Prize> getActivePrizesByPromotionId(Long promotionId, boolean active) {
+        return  prizeRepository.getPrizesByPromotionIdAndActive(promotionId, active);
     }
 
     public Prize getPrizeById(Long prizeId) {
         return prizeRepository.getPrizeByPrizeId(prizeId);
     }
 
-    public void addPrize(Prize prize) {
-        prizeRepository.save(prize);
+    public Prize addPrize(Prize prize) {
+        return prizeRepository.save(prize);
     }
 
-    public List<Prize> getPrizesByDrawId(Long drawId) {
-        return prizeRepository.getPrizesByDrawId(drawId);
+    public List<Prize> getPrizesByPromotionId(Long promotionId) {
+        return prizeRepository.getPrizesByPromotionId(promotionId);
     }
 
-//    public List<Prize> getActivePrizes() {
-//        return prizeRepository.getPrizesByActive();
-//    }
+    public List<Prize> getAllPrizes() {
+        return (List<Prize>) prizeRepository.findAll();
+    }
+
+    public void addPrizes(List<Prize> prizes) {
+        prizeRepository.saveAll(prizes);
+    }
+
+    public void deletePrizes() {
+        prizeRepository.deleteAll();
+    }
+
+    public Prize updatePrize(Long prizeId, Prize prize) {
+        Prize prizeToUpdate =  getPrizeById(prizeId);
+        prizeToUpdate.setPromotionId(prize.getPromotionId() != null? prize.getPromotionId() : prizeToUpdate.getPromotionId());
+        prizeToUpdate.setName(prize.getName() != null? prize.getName() : prizeToUpdate.getName());
+        prizeToUpdate.setDescription(prize.getDescription() != null? prize.getDescription() : prizeToUpdate.getDescription());
+        prizeToUpdate.setActive(prize.getActive()? prize.getActive() : prizeToUpdate.getActive());
+        return prizeRepository.save(prizeToUpdate);
+    }
 }

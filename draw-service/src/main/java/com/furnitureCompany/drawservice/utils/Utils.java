@@ -26,7 +26,7 @@ public class Utils {
         return tickets;
     }
 
-    public static List<Prize> getPrizes(int numberOfPrizes, Long drawId) {
+    public static List<Prize> getPrizes(int numberOfPrizes, Long promotionId) {
         List<Prize> prizes = new ArrayList<>();
 
         for(int index = 0; index < numberOfPrizes; index++) {
@@ -34,7 +34,7 @@ public class Utils {
             prize.setName("King " + index);
             prize.setDescription("Summer prizes " + index);
             prize.setActive(true);
-            prize.setDrawId(drawId);
+            prize.setPromotionId(promotionId);
             prizes.add(prize);
         }
         return prizes;
@@ -80,13 +80,13 @@ public class Utils {
         return products;
     }
 
-    public static List<Participant> getParticipants(int amountOfParticipants, Long drawId) {
+    public static List<Participant> getParticipants(int amountOfParticipants, Long promotionId) {
         List<Participant> participants = new ArrayList<>();
         for(int index = 0; index < amountOfParticipants; index++) {
             Participant participant = new Participant();
             participant.setParticipantId(1L + index);
             participant.setCustomerId(1L+ index);
-            participant.setDrawId(drawId);
+            participant.setPromotionId(promotionId);
             participant.setWinner(false);
             participants.add(participant);
         }

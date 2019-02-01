@@ -24,13 +24,13 @@ public class TicketController {
         return ticketService.getTicketById(ticketId);
     }
 
-    @RequestMapping(value = "/participant/{participant_id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/participants/{participant_id}", method = RequestMethod.GET)
     public List<Ticket> getTicketsByParticipantId(@PathVariable("participant_id") Long participantId) {
         return ticketService.getTicketsByParticipantId(participantId);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public void addTicket(@RequestBody Ticket ticket) {
-        ticketService.addTicket(ticket);
+    public Ticket addTicket(@RequestBody Ticket ticket) {
+        return ticketService.addTicket(ticket);
     }
 }
