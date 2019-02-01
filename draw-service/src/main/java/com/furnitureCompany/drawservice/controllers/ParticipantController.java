@@ -1,8 +1,11 @@
 package com.furnitureCompany.drawservice.controllers;
 
+import com.furnitureCompany.drawservice.model.Customer;
 import com.furnitureCompany.drawservice.model.Participant;
+import com.furnitureCompany.drawservice.model.Winner;
 import com.furnitureCompany.drawservice.services.ParticipantService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,9 +33,9 @@ public class ParticipantController {
         return participantService.getParticipantsByPromotionId(promotionId);
     }
 
-    @RequestMapping(value = "/winner/{winner}/promotions/{promotion_id}", method = RequestMethod.GET)
-    public List<Participant> getWinnersByPromotionId(@PathVariable("winner") boolean winner,
-                                              @PathVariable("promotion_id") Long promotionId) {
+    @RequestMapping(value = "/promotions/{promotion_id}/winners/{winner}", method = RequestMethod.GET)
+    public List<Winner> getWinnersByPromotionId(@PathVariable("winner") boolean winner,
+                                                @PathVariable("promotion_id") Long promotionId) {
         return participantService.getWinnersByPromotionId(winner, promotionId);
     }
 
@@ -47,7 +50,7 @@ public class ParticipantController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.DELETE)
-    public void deleteParticipants(@RequestBody List<Participant> participants) {
+    public void deleteParticipants() {
         participantService.deleteParticipants();
     }
 

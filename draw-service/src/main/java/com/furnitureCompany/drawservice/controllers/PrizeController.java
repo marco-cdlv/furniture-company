@@ -29,7 +29,7 @@ public class PrizeController {
         return prizeService.getPrizeById(prizeId);
     }
 
-    @RequestMapping(value = "/promotion/{promotion_id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/promotions/{promotion_id}", method = RequestMethod.GET)
     public List<Prize> getPrizesByPromotionId(@PathVariable("promotion_id") Long promotionId) {
         return prizeService.getPrizesByPromotionId(promotionId);
     }

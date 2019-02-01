@@ -6,6 +6,7 @@ import com.furnitureCompany.drawservice.services.DrawService;
 import com.furnitureCompany.drawservice.services.PromotionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 
@@ -49,7 +50,7 @@ public class PromotionController {
         promotionService.addPromotions(promotions);
     }
 
-    @RequestMapping(value = "/{promotion_id}/drawPrizes", method = RequestMethod.GET)
+    @RequestMapping(value = "/{promotion_id}/draws", method = RequestMethod.GET)
     public List<Participant> drawPrizes(@PathVariable("promotion_id") Long promotionId) throws Exception {
         return drawService.drawPrize(promotionId);
     }
