@@ -33,12 +33,6 @@ public class ParticipantController {
         return participantService.getParticipantsByPromotionId(promotionId);
     }
 
-    @RequestMapping(value = "/promotions/{promotion_id}/winners/{winner}", method = RequestMethod.GET)
-    public List<Winner> getWinnersByPromotionId(@PathVariable("winner") boolean winner,
-                                                @PathVariable("promotion_id") Long promotionId) {
-        return participantService.getWinnersByPromotionId(winner, promotionId);
-    }
-
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public Participant addParticipant(@RequestBody Participant participant) {
         return participantService.addParticipant(participant);

@@ -10,5 +10,5 @@ import java.util.List;
 public interface ParticipantRepository extends CrudRepository<Participant, String> {
     Participant getParticipantByParticipantId(Long participantId);
     List<Participant> getParticipantsByPromotionId(Long promotionId);
-    List<Participant> getParticipantsByWinnerAndPromotionId(boolean winner, Long drawId);
+    List<Participant> getParticipantsByParticipantIdIn(List<Long> participantIds);
 }

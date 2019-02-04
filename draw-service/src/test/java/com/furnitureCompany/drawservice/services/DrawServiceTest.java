@@ -57,7 +57,7 @@ public class DrawServiceTest {
         }};
 
         // execute
-        List<Participant> results = drawService.drawTheActivePrizes(drawId, participants, tickets);
+        List<Winner> results = drawService.drawTheActivePrizes(drawId, participants, tickets);
 
         // verify
         assert results != null && !results.isEmpty();

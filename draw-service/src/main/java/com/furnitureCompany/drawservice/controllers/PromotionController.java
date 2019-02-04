@@ -2,6 +2,7 @@ package com.furnitureCompany.drawservice.controllers;
 
 import com.furnitureCompany.drawservice.model.Participant;
 import com.furnitureCompany.drawservice.model.Promotion;
+import com.furnitureCompany.drawservice.model.Winner;
 import com.furnitureCompany.drawservice.services.DrawService;
 import com.furnitureCompany.drawservice.services.PromotionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +52,7 @@ public class PromotionController {
     }
 
     @RequestMapping(value = "/{promotion_id}/draws", method = RequestMethod.GET)
-    public List<Participant> drawPrizes(@PathVariable("promotion_id") Long promotionId) throws Exception {
+    public List<Winner> drawPrizes(@PathVariable("promotion_id") Long promotionId) throws Exception {
         return drawService.drawPrize(promotionId);
     }
 

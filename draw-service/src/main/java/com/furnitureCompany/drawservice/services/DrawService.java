@@ -35,11 +35,14 @@ public class DrawService {
     PromotionService promotionService;
 
     @Autowired
+    WinnerService winnerService;
+
+    @Autowired
     ProductRestTemplateClient productRestTemplateClient;
 
     private static final Logger logger = LoggerFactory.getLogger(DrawService.class);
 
-    public List<Participant> drawPrize(Long promotionId) throws Exception {
+    public List<Winner> drawPrize(Long promotionId) throws Exception {
         Promotion promotion = promotionService.getPromotionById(promotionId);
 
         if (promotion == null) {
@@ -64,19 +67,19 @@ public class DrawService {
         ticketService.addTickets(tickets);
 
         // Draws the active prizes
-        List<Participant> winners = drawTheActivePrizes(promotion.getPromotionId(), participants, tickets);
+        List<Winner> winners = drawTheActivePrizes(promotion.getPromotionId(), participants, tickets);
 
         if (winners != null && !winners.isEmpty()) {
             promotion.setActive(false);
-            promotionService.updatePromotion(promotion,promotionId);
+            promotionService.updatePromotion(promotion, promotionId);
         }
 
-        participantService.addWinners(winners);
+        winnerService.addWinners(winners);
         return winners;
     }
 
-    List<Participant> drawTheActivePrizes(Long promotionId, List<Participant> participants, List<Ticket> tickets) throws Exception {
-        List<Participant> winners = new ArrayList<>();
+    List<Winner> drawTheActivePrizes(Long promotionId, List<Participant> participants, List<Ticket> tickets) throws Exception {
+        List<Winner> winners = new ArrayList<>();
         List<Prize> activePrizes = prizeService.getActivePrizesByPromotionId(promotionId, true);
 
         if (activePrizes == null || activePrizes.isEmpty()) {
@@ -86,19 +89,14 @@ public class DrawService {
         List<Ticket> winnerTickets = ticketService.getWinnerTickets(tickets, activePrizes.size());
 
         for (int index = 0; index < activePrizes.size(); index++) {
-            int finalIndex = index;
-            Participant winner = participants.stream()
-                    .filter(participant -> participant.getCustomerId() == winnerTickets.get(finalIndex).getParticipantId())
-                    .findAny()
-                    .orElse(null);
-
-            if (winner != null) {
-                winner.setWinner(true);
-                winners.add(winner);
-                activePrizes.get(index).setPromotionId(promotionId);
-                activePrizes.get(index).setActive(false);
-            }
+            Winner winner = new Winner();
+            winner.setPrizeId(activePrizes.get(index).getPrizeId());
+            winner.setPromotionId(activePrizes.get(index).getPromotionId());
+            winner.setParticipantId(winnerTickets.get(index).getParticipantId());
+            winner.setDate(new Date());
+            winners.add(winner);
         }
+
         logger.debug("DRAW-SERVICE -> Winners: " + winners);
         return winners;
     }

@@ -87,7 +87,6 @@ public class Utils {
             participant.setParticipantId(1L + index);
             participant.setCustomerId(1L+ index);
             participant.setPromotionId(promotionId);
-            participant.setWinner(false);
             participants.add(participant);
         }
         return participants;

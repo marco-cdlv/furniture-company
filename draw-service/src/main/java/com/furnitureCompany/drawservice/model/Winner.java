@@ -1,52 +1,67 @@
 package com.furnitureCompany.drawservice.model;
 
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
-public class Winner implements Serializable {
+@Entity
+@Table(name = "winners")
+public class Winner {
 
-    private String fullName;
-    private String address;
-    private Integer phoneNumber;
-    private String prizeName;
-    private String promotionName;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "winner_id", unique = true, nullable = false)
+    private Long winnerId;
 
-    public String getFullName() {
-        return fullName;
+    @Column(name = "prize_id", nullable = false)
+    private Long prizeId;
+
+    @Column(name = "participant_id", nullable = false)
+    private Long participantId;
+
+    @Column(name = "promotion_id", nullable = false)
+    private Long promotionId;
+
+    @Column(name = "date")
+    private Date date;
+
+    public Date getDate() {
+        return date;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
-    public String getAddress() {
-        return address;
+    public Long getWinnerId() {
+        return winnerId;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setWinnerId(Long winnerId) {
+        this.winnerId = winnerId;
     }
 
-    public Integer getPhoneNumber() {
-        return phoneNumber;
+    public Long getPrizeId() {
+        return prizeId;
     }
 
-    public void setPhoneNumber(Integer phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setPrizeId(Long prizeId) {
+        this.prizeId = prizeId;
     }
 
-    public String getPrizeName() {
-        return prizeName;
+    public Long getParticipantId() {
+        return participantId;
     }
 
-    public void setPrizeName(String prizeName) {
-        this.prizeName = prizeName;
+    public void setParticipantId(Long participantId) {
+        this.participantId = participantId;
     }
 
-    public String getPromotionName() {
-        return promotionName;
+    public Long getPromotionId() {
+        return promotionId;
     }
 
-    public void setPromotionName(String promotionName) {
-        this.promotionName = promotionName;
+    public void setPromotionId(Long promotionId) {
+        this.promotionId = promotionId;
     }
 }
